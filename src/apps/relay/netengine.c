@@ -1660,6 +1660,26 @@ static void setup_relay_server(struct relay_server *rs, ioa_engine_handle e, int
 	if(turn_params.net_engine_version == NEV_UDP_SOCKET_PER_THREAD) {
 		setup_tcp_listener_servers(rs->ioa_eng, rs);
 	}
+
+	//lets for the IPV mode if we have a forced external relay address
+	if (turn_params.relays_number>0) {
+		ioa_addr relay_addr;
+		if(make_ioa_addr((u08bits*) turn_params.relay_addrs[0], 0, &relay_addr)<0) {
+			fprintf(stderr,"FAILED TO MAKE ADDR!\n");
+			exit(1);
+		}
+		fprintf(stderr,"GOING TO FORCE MODE %d %d\n",relay_addr.ss.sa_family == AF_INET,relay_addr.ss.sa_family == AF_INET6);
+		turn_turnserver * server = &(rs->server);
+		if (relay_addr.ss.sa_family == AF_INET) {
+			server->force_ipv=4;
+		} else {
+			server->force_ipv=6;
+		}
+	} else {
+		turn_turnserver * server = &(rs->server);
+		server->force_ipv=0;
+	}
+
 }
 
 static void *run_general_relay_thread(void *arg)

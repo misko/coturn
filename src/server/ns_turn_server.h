@@ -131,6 +131,7 @@ struct _turn_turnserver {
 	check_new_allocation_quota_cb chquotacb;
 	release_allocation_quota_cb raqcb;
 	int external_ip_set;
+	int force_ipv;
 	ioa_addr external_ip;
 	vintp no_loopback_peers;
 	vintp no_multicast_peers;

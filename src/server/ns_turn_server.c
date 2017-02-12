@@ -999,8 +999,8 @@ static int handle_turn_allocate(turn_turnserver *server,
 		int even_port = -1;
 		int dont_fragment = 0;
 		u64bits in_reservation_token = 0;
-		int af4 = 0;
-		int af6 = 0;
+		int af4 = server->force_ipv==4;
+		int af6 = server->force_ipv==6;
 		u08bits username[STUN_MAX_USERNAME_SIZE+1]="\0";
 		size_t ulen = 0;
 		band_limit_t bps = 0;
